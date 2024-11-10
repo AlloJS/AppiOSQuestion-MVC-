@@ -4,6 +4,17 @@
 
 ---
 
+## 🏗️ Struttura del Progetto
+
+Questa versione di **Question App** è stata sviluppata seguendo l'architettura **MVC** (Model-View-Controller), che consente una chiara separazione della logica dell'app, dell'interfaccia utente e della gestione dei dati.
+
+### 📂 Struttura delle cartelle
+- **Model**: Contiene la logica di business e le strutture dati (es. `QuestionBrain`, modelli delle domande, punteggio, ecc.).
+- **View**: Include l'interfaccia utente creata con Storyboard e i collegamenti agli elementi visuali.
+- **Controller**: Coordina l'interazione tra il Model e la View, gestendo gli eventi e aggiornando l'interfaccia.
+
+---
+
 ## 📸 Screenshot
 
 Ecco alcuni screenshot dell'app in uso:
