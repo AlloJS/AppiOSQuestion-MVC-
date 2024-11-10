@@ -11,24 +11,16 @@ class MenuViewController: UIViewController {
     @IBOutlet weak var technologyButton: UIButton!
     @IBOutlet weak var literatureButton: UIButton!
     @IBOutlet weak var scoreText: UILabel!
-    var score:  Int = UserDefaults.standard.integer(forKey: "puntiGiocatore")
-    var questionIsDo : [String] = UserDefaults.standard.stringArray(forKey: "domandeFatte")  ?? []
+    var brain: QuestionBrain = QuestionBrain()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        scoreText.text = String("Score: \(score)")
-        print(questionIsDo)
+        scoreText.text = String("Score: \(brain.score)")
+    
         NotificationCenter.default.addObserver(self, selector: #selector(updateScore(_:)), name: .scoreDidChange, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(updateArguments(_:)), name: .argumentsDidChange, object: nil)
         
-        styleBtn(btn: geographyButton)
-        styleBtn(btn: storyButton)
-        styleBtn(btn: scienceButton)
-        styleBtn(btn: artButton)
-        styleBtn(btn: musicButton)
-        styleBtn(btn: cinemaButton)
-        styleBtn(btn: technologyButton)
-        styleBtn(btn: literatureButton)
+        styleAllButtons()
     }
     
     
@@ -57,37 +49,12 @@ class MenuViewController: UIViewController {
         }
     }
     
-    func styleBtn(btn: UIButton){
-        if questionIsDo.contains(btn.titleLabel!.text!) {
-            btn.layer.borderColor = UIColor.gray.cgColor
-            btn.backgroundColor = UIColor.systemGray
-            btn.isEnabled = false
-            btn.layer.cornerRadius = 10
-            btn.layer.shadowRadius = 4
-            btn.layer.cornerRadius = 10
-            btn.layer.borderWidth = 2
-        } else {
-            btn.layer.shadowColor = UIColor.black.cgColor
-            btn.layer.shadowOpacity = 0.5
-            btn.layer.shadowOffset = CGSize(width: 4, height: 4)
-            btn.layer.shadowRadius = 4
-            btn.layer.cornerRadius = 10
-            btn.layer.borderWidth = 2
-        }
-    }
-    
     @objc func updateScore(_ notification: Notification) {
-        if let updatedScore = notification.userInfo?["newScore"] as? Int {
-            score = updatedScore
-            scoreText.text = "Score: \(score)"
-        }
+        scoreText.text = brain.updateScoreMenu(notification, score: brain.score)
     }
-    
+     
     @objc func updateArguments(_ notification: Notification) {
-        if let updatedquestionIsDo = notification.userInfo?["argumentDo"] as? [String] {
-            questionIsDo = updatedquestionIsDo
-            UserDefaults.standard.set(questionIsDo, forKey: "domandeFatte")
-        }
+        brain.updateArgumentsMenu(notification,questionIsDo: brain.questionIsDo)
         styleAllButtons()
     }
 
@@ -96,14 +63,14 @@ class MenuViewController: UIViewController {
     }
     
     func styleAllButtons() {
-        styleBtn(btn: geographyButton)
-        styleBtn(btn: storyButton)
-        styleBtn(btn: scienceButton)
-        styleBtn(btn: artButton)
-        styleBtn(btn: musicButton)
-        styleBtn(btn: cinemaButton)
-        styleBtn(btn: technologyButton)
-        styleBtn(btn: literatureButton)
+        brain.styleMenuBtn(btn: geographyButton)
+        brain.styleMenuBtn(btn: storyButton)
+        brain.styleMenuBtn(btn: scienceButton)
+        brain.styleMenuBtn(btn: artButton)
+        brain.styleMenuBtn(btn: musicButton)
+        brain.styleMenuBtn(btn: cinemaButton)
+        brain.styleMenuBtn(btn: technologyButton)
+        brain.styleMenuBtn(btn: literatureButton)
     }
 }
 

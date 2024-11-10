@@ -594,6 +594,25 @@ struct QuestionBrain {
         btn.layer.borderWidth = 2
     }
     
+    func styleMenuBtn(btn: UIButton){
+        if questionIsDo.contains(btn.titleLabel!.text!) {
+            btn.layer.borderColor = UIColor.gray.cgColor
+            btn.backgroundColor = UIColor.systemGray
+            btn.isEnabled = false
+            btn.layer.cornerRadius = 10
+            btn.layer.shadowRadius = 4
+            btn.layer.cornerRadius = 10
+            btn.layer.borderWidth = 2
+        } else {
+            btn.layer.shadowColor = UIColor.black.cgColor
+            btn.layer.shadowOpacity = 0.5
+            btn.layer.shadowOffset = CGSize(width: 4, height: 4)
+            btn.layer.shadowRadius = 4
+            btn.layer.cornerRadius = 10
+            btn.layer.borderWidth = 2
+        }
+    }
+    
     func getStrResult(rightAnswers: Int, wrongAnswers: Int,formattedNumber: String, result: String , maxQuestion: Int, score: Int)->String {
         return  "Hai risosto esattamente a \(rightAnswers) domande\ne a \(wrongAnswers) sbagliate.\nTotalizzando su \(maxQuestion) domande una percentuale di \(formattedNumber)% risposte esatte.\n\(result) \nCon il tuo totale punti di \(score)"
     }
@@ -609,4 +628,23 @@ struct QuestionBrain {
         NotificationCenter.default.post(name: name, object: nil, userInfo: [userInfo: score])
         
     }
+    
+    func updateScoreMenu(_ notification: Notification,score: Int)->String {
+        var newScore = score
+        if let updatedScore = notification.userInfo?["newScore"] as? Int {
+            newScore = updatedScore
+            return "Score: \(newScore)"
+        }
+        return "Score: \(newScore)"
+    }
+    
+    func updateArgumentsMenu(_ notification: Notification,questionIsDo: [String]){
+        var newquestionIsDo = questionIsDo
+        if let updatedquestionIsDo = notification.userInfo?["argumentDo"] as? [String] {
+            newquestionIsDo = updatedquestionIsDo
+            UserDefaults.standard.set(newquestionIsDo, forKey: "domandeFatte")
+        }
+
+    }
+    
 }
